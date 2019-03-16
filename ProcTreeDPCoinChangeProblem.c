@@ -53,7 +53,7 @@ void getCoinChangeCombination_test(int* coinSupplyValue, int value, int coinType
     }
     
     
-    //printTreeForDebugging(nodesDP, counter);
+    printTreeForDebugging(nodesDP, counter);
 }
 
 void initProcessTreeNode(ProcessTreeNode* P, int value, int coinTypes, int number, int totalNodes, int initVal){
