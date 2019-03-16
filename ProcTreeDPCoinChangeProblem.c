@@ -183,10 +183,20 @@ void runFunctionProcessMethod_Create(ProcessTreeNode* root){
     int n = root[0].totalNumberOfNodes;
     pid_t child_pid, wpid;
     int status;
+    int Shm_size = sizeof(ProcessTreeNode)* n;
 
     ShmID = shmget(IPC_PRIVATE, n*sizeof(ProcessTreeNode), IPC_CREAT | 0666);
-    ShmPTR = (ProcessTreeNode *) shmat(ShmID, NULL, 0);
-    ShmPTR = root;
+    //ShmPTR = (ProcessTreeNode *) shmat(ShmID, NULL, 0);
+    memcpy(ShmPTR, root, Shm_size);
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < ShmPTR[i].numberOfChildren; j++)
+        {
+            int index = ShmPTR[i].children[j]->nodeNumber;
+            ShmPTR[i].children[j] = &ShmPTR[index];
+        }
+    }
 
     for (int i = 0; i < n; i++){
         child_pid = fork();
