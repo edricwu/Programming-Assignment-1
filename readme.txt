@@ -1,7 +1,4 @@
-If you are compiling these from the command line, cd to this folder and type the command:
-gcc -o ProcTreeDPCoinChangeProblem.o ProcTreeDPCoinChangeProblem.c main.c
-
-and run the output:
-./ProcTreeDPCoinChangeProblem.o
-
-Otherwise, you are free to use the IDE of your choice.
+Note:
+- I have chosen to comment out the fork implementation in the entry method, getCoinChangeCombination_test.
+- The implementation of runFunctionProcessMethod_Create is based on and catered towards this fact.
+- The final answer can be seen by simply invoking printTreeForDebugging() method which has already been done in the entry method, getCoinChangeCombination_test.
