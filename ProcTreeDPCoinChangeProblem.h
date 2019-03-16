@@ -94,6 +94,7 @@ void runFunctionProcessMethod_Create(ProcessTreeNode* root);
 /*
  Add helper methods here
  */
-
+void *ThreadEntryMethod(void* nodex);
+void ChildFunc (ProcessTreeNode* SharedMem);
 
 #endif /* ProcTreeDPCoinChangeProblem_h */

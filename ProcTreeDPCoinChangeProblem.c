@@ -42,13 +42,13 @@ void getCoinChangeCombination_test(int* coinSupplyValue, int value, int coinType
             break;
         case (USEPROCESS):
         {
-            int forkReturnVal = fork();
-            if (forkReturnVal == 0)
+            //int forkReturnVal = fork();
+            //if (forkReturnVal == 0)
                 runFunctionProcessMethod_Create(nodesDP);
-            else{
-                wait(NULL);
-            }
-            break;
+            //else{
+            //    wait(NULL);
+            //}
+            //break;
         }
     }
     
@@ -206,25 +206,36 @@ void runFunctionProcessMethod_Create(ProcessTreeNode* root){
         }
         else if (child_pid == 0){
             ChildFunc(ShmPTR);
-            exit(0);
         }
     }
 
     while ((wpid = wait(&status)) > 0);
+    for (int i = 0; i < n; i++){
+        root[i].cellValue = ShmPTR[i].cellValue;
+    }
     shmdt((void *) ShmPTR);
     shmctl(ShmID, IPC_RMID, NULL);
-    exit(0);
 }
 
 /**YOU ARE FREE TO CREATE OTHER HELPER METHODS BELOW THIS LINE**/
 void ChildFunc (ProcessTreeNode* SharedMem){
     int n = SharedMem[0].totalNumberOfNodes;
     for (int i = 0; i < n; i++){
-        if (SharedMem[i].processStatus == UNDEFINED && SharedMem[i].processStatus != FINISHED){
+        if (SharedMem[i].processStatus == UNDEFINED){
             SharedMem[i].processStatus = RUNNING;
-            printf("%s\n",SharedMem[i].name);
-            break;
+            if (SharedMem[i].nodeNumber == 0){
+                SharedMem[i].cellValue = 1;
+                
+            }
+            else{
+                for (int j = 0; j < SharedMem[i].numberOfChildren; j++){
+                    while (SharedMem[i].children[j] -> processStatus != FINISHED){
+                    }
+                    SharedMem[i].cellValue += SharedMem[i].children[j] -> cellValue;
+                }
+            }
+            SharedMem[i].processStatus = FINISHED;
+            exit(0);
         }
     }
-    printf("%i\n",n);
 }
