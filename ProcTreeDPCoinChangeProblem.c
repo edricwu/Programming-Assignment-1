@@ -186,7 +186,7 @@ void runFunctionProcessMethod_Create(ProcessTreeNode* root){
     int Shm_size = sizeof(ProcessTreeNode)* n;
 
     ShmID = shmget(IPC_PRIVATE, n*sizeof(ProcessTreeNode), IPC_CREAT | 0666);
-    //ShmPTR = (ProcessTreeNode *) shmat(ShmID, NULL, 0);
+    ShmPTR = (ProcessTreeNode *) shmat(ShmID, NULL, 0);
     memcpy(ShmPTR, root, Shm_size);
 
     for (int i = 0; i < n; i++)
